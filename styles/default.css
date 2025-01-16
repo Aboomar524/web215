@@ -75,10 +75,10 @@ header nav a:hover {
 main {
     margin: 2rem auto;
     max-width: 800px;
-    background: rgb(160, 169, 172);
+    background: rgb(204, 231, 240);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 
@@ -94,7 +94,7 @@ main a:hover {
 
 /* Footer Styles */
 footer {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: rgb(240, 240, 12);
     padding: 1rem;
     text-align: center;
