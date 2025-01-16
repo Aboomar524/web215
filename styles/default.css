@@ -132,7 +132,7 @@ figure figcaption {
 /* Contract-Specific Classes */
 .contract-text {
     font-weight: bold;
-    color: blue;
+    color: rgb(236, 18, 55);
 }
 
 /* Responsive Design */
