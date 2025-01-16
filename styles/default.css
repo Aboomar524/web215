@@ -1,0 +1,148 @@
+html,
+body,
+div,
+p,
+h1,
+h2,
+h3,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+:root {
+    --primary-color: #0d1f2d;
+    /* Dark Blue */
+    --secondary-color: #546a7b;
+    /* Medium Gray */
+    --accent-color: #fae1df;
+    /* Light Pink */
+    --background-color: #f4f4f9;
+    /* Light Grayish Background */
+    --text-color: #333333;
+    /* Almost Black */
+    --highlight-color: #f7f600;
+    /* Yellow */
+}
+
+/* Body Styles */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 1rem;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-color);
+    color: var(--highlight-color);
+    padding: 1rem;
+    text-align: center;
+}
+
+
+header nav {
+    margin-top: 1rem;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav a {
+    color: var(--highlight-color);
+    margin: 0 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+    color: #ffcc00;
+}
+
+/* Main Section Styles */
+main {
+    margin: 2rem auto;
+    max-width: 800px;
+    background: rgb(160, 169, 172);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+main a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+main a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--secondary-color);
+    color: rgb(240, 240, 12);
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+footer nav a {
+    color: var(--highlight-color);
+    margin: 0 0.5rem;
+    text-decoration: none;
+}
+
+footer nav a:hover {
+    text-decoration: underline;
+}
+
+/* Image and Figure Styles */
+figure {
+    margin: 1.5rem auto;
+    text-align: center;
+}
+
+figure img {
+    max-width: 25%;
+    height: auto;
+    border-radius: 10px;
+}
+
+figure figcaption {
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: var(--secondary-color);
+}
+
+/* Contract-Specific Classes */
+.contract-text {
+    font-weight: bold;
+    color: blue;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
+
+    header,
+    footer {
+        text-align: center;
+    }
+}
