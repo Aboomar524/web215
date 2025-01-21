@@ -12,20 +12,21 @@ li {
     box-sizing: border-box;
 }
 
-
 :root {
     --primary-color: #0d1f2d;
     /* Dark Blue */
     --secondary-color: #546a7b;
     /* Medium Gray */
-    --accent-color: #fae1df;
-    /* Light Pink */
+    --accent-color: #e06b6b;
+    /* Adjusted Light Pink for better contrast */
     --background-color: #f4f4f9;
     /* Light Grayish Background */
-    --text-color: #333333;
-    /* Almost Black */
-    --highlight-color: #f7f600;
-    /* Yellow */
+    --text-color: #212121;
+    /* Adjusted for better contrast */
+    --highlight-color: #d1c200;
+    /* Darker Yellow for better contrast */
+    --link-hover-color: #bf9000;
+    /* Adjusted hover color for contrast */
 }
 
 /* Body Styles */
@@ -34,7 +35,6 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    padding: 1rem;
 }
 
 /* Header Styles */
@@ -44,7 +44,6 @@ header {
     padding: 1rem;
     text-align: center;
 }
-
 
 header nav {
     margin-top: 1rem;
@@ -68,20 +67,18 @@ header nav a {
 
 header nav a:hover {
     text-decoration: underline;
-    color: #ffcc00;
+    color: var(--link-hover-color);
 }
 
 /* Main Section Styles */
 main {
     margin: 2rem auto;
     max-width: 800px;
-    background: rgb(204, 231, 240);
+    background: #e0eff6;
+    /* Slightly darker background for better contrast */
     padding: 2rem;
     border-radius: 8px;
-
 }
-
-
 
 main a {
     color: var(--accent-color);
@@ -90,12 +87,16 @@ main a {
 
 main a:hover {
     text-decoration: underline;
+    background-color: #333333;
+    /* Contrast-enhancing hover background */
+    color: #ffffff;
+    /* Light text for contrast */
 }
 
 /* Footer Styles */
 footer {
     background-color: var(--primary-color);
-    color: rgb(240, 240, 12);
+    color: var(--highlight-color);
     padding: 1rem;
     text-align: center;
     margin-top: 2rem;
@@ -132,7 +133,8 @@ figure figcaption {
 /* Contract-Specific Classes */
 .contract-text {
     font-weight: bold;
-    color: rgb(236, 18, 55);
+    color: #de0c0c;
+    /* Darker red for contrast */
 }
 
 /* Responsive Design */
