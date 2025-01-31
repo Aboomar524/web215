@@ -130,11 +130,10 @@ figure figcaption {
     color: var(--secondary-color);
 }
 
-/* Contract-Specific Classes */
 .contract-text {
     font-weight: bold;
     color: #de0c0c;
-    /* Darker red for contrast */
+
 }
 
 /* Responsive Design */
