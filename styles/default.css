@@ -15,6 +15,7 @@
   --color-button-active-background: #483d8b;
 }
 
+<<<<<<< HEAD
 [data-theme='dark'] {
   --color-background-base: #2f4f4f;
   --color-background-end: #000000;
@@ -30,9 +31,27 @@
   --color-button-foreground: #1c1c1c;
   --color-button-hover-background: #FFD700;
   --color-button-active-background: #FFB14E;
+=======
+:root {
+    --primary-color: #0d1f2d;
+    /* Dark Blue */
+    --secondary-color: #546a7b;
+    /* Medium Gray */
+    --accent-color: #e06b6b;
+    /* Adjusted Light Pink for better contrast */
+    --background-color: #f4f4f9;
+    /* Light Grayish Background */
+    --text-color: #212121;
+    /* Adjusted for better contrast */
+    --highlight-color: #d1c200;
+    /* Darker Yellow for better contrast */
+    --link-hover-color: #bf9000;
+    /* Adjusted hover color for contrast */
+>>>>>>> fb932d41ae842b45e4a1ebc6e1203b7c0433b323
 }
 
 body {
+<<<<<<< HEAD
   background: var(--color-background-base);
   background-image: radial-gradient(
     circle at 0.5% 50.5%,
@@ -46,6 +65,12 @@ body {
     'Helvetica Neue', sans-serif;
   font-size: 100%;
   margin: 5% 20%;
+=======
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+>>>>>>> fb932d41ae842b45e4a1ebc6e1203b7c0433b323
 }
 
 h1 {
@@ -57,10 +82,15 @@ h1 {
   text-align: center;
 }
 
+<<<<<<< HEAD
 h2 {
   color: var(--color-header);
   font-family: 'Montserrat', sans-serif;
   font-size: 2em;
+=======
+header nav {
+    margin-top: 1rem;
+>>>>>>> fb932d41ae842b45e4a1ebc6e1203b7c0433b323
 }
 
 h3 {
@@ -74,6 +104,7 @@ a {
   text-decoration: none;
 }
 
+<<<<<<< HEAD
 a:hover {
   color: var(--color-link-hover);
 }
@@ -91,16 +122,82 @@ nav ul {
 
 nav ul li {
   padding: 10px;
+=======
+header nav a:hover {
+    text-decoration: underline;
+    color: var(--link-hover-color);
+}
+
+/* Main Section Styles */
+main {
+    margin: 2rem auto;
+    max-width: 800px;
+    background: #e0eff6;
+    /* Slightly darker background for better contrast */
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+main a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+main a:hover {
+    text-decoration: underline;
+    background-color: #333333;
+    /* Contrast-enhancing hover background */
+    color: #ffffff;
+    /* Light text for contrast */
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--primary-color);
+    color: var(--highlight-color);
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+footer nav a {
+    color: var(--highlight-color);
+    margin: 0 0.5rem;
+    text-decoration: none;
+}
+
+footer nav a:hover {
+    text-decoration: underline;
+}
+
+/* Image and Figure Styles */
+figure {
+    margin: 1.5rem auto;
+    text-align: center;
+}
+
+figure img {
+    max-width: 25%;
+    height: auto;
+    border-radius: 10px;
+>>>>>>> fb932d41ae842b45e4a1ebc6e1203b7c0433b323
 }
 
 figure figcaption {
   text-align: center;
 }
 
+<<<<<<< HEAD
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
+=======
+.contract-text {
+    font-weight: bold;
+    color: #de0c0c;
+
+>>>>>>> fb932d41ae842b45e4a1ebc6e1203b7c0433b323
 }
 
 footer {
