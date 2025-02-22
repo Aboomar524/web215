@@ -90,10 +90,11 @@ main a:hover {
   background-color: #333333;
   /* Contrast-enhancing hover background */
   color: #ffffff;
-  /* Light text for contrast */
+
 }
 
 /* Footer Styles */
+
 footer {
   background-color: var(--primary-color);
   color: var(--highlight-color);
@@ -107,7 +108,7 @@ footer nav a {
   margin: 0 1rem;
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
+  transition: color 0.3s ease;
 
 }
 
