@@ -66,7 +66,7 @@ header nav a {
 }
 
 header nav a:hover {
-  text-decoration: underline;
+
   color: var(--link-hover-color);
 }
 
@@ -86,7 +86,7 @@ main a {
 }
 
 main a:hover {
-  text-decoration: underline;
+
   background-color: #333333;
   /* Contrast-enhancing hover background */
   color: #ffffff;
@@ -112,7 +112,7 @@ footer nav a {
 }
 
 footer nav a:hover {
-  text-decoration: underline;
+
   color: var(--link-hover-color);
 }
 
