@@ -43,21 +43,6 @@ header {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-header h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.3rem;
-}
-
-header h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.2rem;
-}
-
 header nav ul {
   list-style-type: none;
   display: flex;
