@@ -13,157 +13,140 @@ li {
 }
 
 :root {
-  --primary-color: #0d1f2d;
-  --secondary-color: #546a7b;
-  --accent-color: #e06b6b;
-  --background-color: #f4f4f9;
-  --text-color: #212121;
-  --highlight-color: #d1c200;
-  --link-hover-color: #bf9000;
+  --primary-color: #ff007f;
+  --secondary-color: #00eaff;
+  --accent-color: #ffea00;
+  --background-color: #1a1a1a;
+  --text-color: #ffffff;
+  --highlight-color: #ff4d00;
+  --link-hover-color: #00ff00;
 }
 
 body {
-  font-family: 'Roboto', Arial, sans-serif;
-  background-color: var(--background-color);
+  font-family: 'Fira Code', monospace;
+  background: var(--background-color);
   color: var(--text-color);
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 header {
-  background-color: var(--primary-color);
-  color: var(--highlight-color);
-  padding: 1rem;
+  background: var(--primary-color);
+  color: var(--accent-color);
+  padding: 2rem;
   text-align: center;
-}
-
-header nav {
-  margin-top: 1rem;
+  border-bottom: 5px solid var(--highlight-color);
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 header nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   justify-content: center;
+  gap: 2rem;
+  list-style: none;
 }
 
 header nav a {
-  color: var(--highlight-color);
-  margin: 0 1rem;
-  text-decoration: none;
+  color: var(--secondary-color);
+  font-size: 1.3rem;
   font-weight: bold;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 header nav a:hover {
   color: var(--link-hover-color);
+  transform: scale(1.2);
 }
 
 main {
-  margin: 2rem auto;
-  max-width: 800px;
-  background: #e0eff6;
-  padding: 2rem;
-  border-radius: 8px;
+  margin: 3rem auto;
+  max-width: 900px;
+  background: #222222;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 0 25px var(--accent-color);
 }
 
 main a {
-  color: var(--accent-color);
+  color: var(--highlight-color);
+  font-weight: bold;
   text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease, padding 0.3s ease;
 }
 
 main a:hover {
-  background-color: #333333;
-  color: #ffffff;
+  background: var(--highlight-color);
+  color: var(--background-color);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
 }
 
 footer {
-  background-color: var(--primary-color);
-  color: var(--highlight-color);
-  padding: 1rem;
+  background: var(--primary-color);
+  color: var(--accent-color);
   text-align: center;
-  margin-top: 2rem;
-}
-
-footer nav a {
-  color: var(--highlight-color);
-  margin: 0 1rem;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-footer nav a:hover {
-  color: var(--link-hover-color);
-}
-
-/* Footer Styling for responsiveness */
-footer {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
+  margin-top: 3rem;
+  border-top: 5px solid var(--highlight-color);
 }
 
 footer nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 2rem;
   flex-wrap: wrap;
 }
 
 footer nav a {
-  font-size: 1rem;
+  color: var(--secondary-color);
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 footer nav a:hover {
-  font-size: 1.1rem;
+  color: var(--link-hover-color);
+  transform: translateY(-4px);
 }
 
-/* Image and Figure Styles */
 figure {
-  margin: 1.5rem auto;
   text-align: center;
+  margin: 2.5rem 0;
 }
 
 figure img {
-  width: 200;
-  height: 267px
+  width: 260px;
+  height: 320px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px var(--secondary-color);
 }
-
 
 figure figcaption {
-  margin-top: 0.5rem;
-  font-style: italic;
+  margin-top: 1rem;
+  font-size: 1.2rem;
   color: var(--secondary-color);
+  font-style: italic;
 }
 
-/* Contract-Specific Classes */
 .contract-text {
   font-weight: bold;
-  color: #de0c0c;
+  color: var(--highlight-color);
+  font-size: 1.4rem;
+  text-transform: uppercase;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   main {
-    padding: 1rem;
+    padding: 1.8rem;
   }
 
-  header,
-  footer {
-    text-align: center;
+  header nav {
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   footer nav {
     flex-direction: column;
-    align-items: center;
-  }
-
-  footer nav a {
-    margin: 0.5rem 0;
-  }
-
-  footer nav a:hover {
-    font-size: 1.1rem;
+    gap: 1.2rem;
   }
 }
