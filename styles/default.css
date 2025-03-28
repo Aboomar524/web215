@@ -16,19 +16,12 @@ li {
 
 :root {
   --primary-color: #1c1c1c;
-
   --secondary-color: #2e3b4e;
-
   --accent-color: #ff6f61;
-
   --background-color: #12121222;
-
   --text-color: #e0e0e0;
-
   --highlight-color: #ffeb3b;
-
   --link-hover-color: #ff9800;
-
 }
 
 body {
@@ -62,13 +55,12 @@ header nav a {
   color: var(--accent-color);
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition: color 0.3s ease;
   font-size: 1.2rem;
 }
 
 header nav a:hover {
   color: var(--link-hover-color);
-  transform: scale(1.05);
 }
 
 main {
@@ -91,6 +83,16 @@ main a:hover {
   color: #212121;
   padding: 0.5rem 1rem;
   border-radius: 5px;
+}
+
+ul.feature {
+  list-style-type: disc;
+  margin-left: 2rem;
+}
+
+ul.feature ul {
+  list-style-type: circle;
+  margin-left: 2rem;
 }
 
 footer {
