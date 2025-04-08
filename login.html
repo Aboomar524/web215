@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Ahmad Alhomair's Adventurous Anaconda | WEB215</title>
+    <link rel="stylesheet" href="styles/default.css">
+    <script src="https://lint.page/kit/880bd5.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div data-include="components/header.html"></div>
+    <main>
+        <h2>Login</h2>
+        <p>Please enter your username and password to log in.</p>
+        
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+    </main>
+    <div data-include="components/footer.html"></div>
+
+    <script src="scripts/HTMLInclude.js"></script>
+</body>
+</html>
