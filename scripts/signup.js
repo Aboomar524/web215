@@ -1,41 +1,44 @@
-// Assuming your signup form has id="signupForm"
+// Handle the signup form submission
 document.getElementById('signupForm').addEventListener('submit', function (event) {
-    event.preventDefault();  // Prevents the default form submission behavior
+    event.preventDefault();  // Prevent default form submission
 
-    const username = document.getElementById('newUsername').value;
-    const password = document.getElementById('newPassword').value;
+    const newUsername = document.getElementById('newUsername').value;
+    const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    // Basic validation (optional)
-    if (!username || !password || !confirmPassword) {
+    // Basic form validation
+    if (!newUsername || !newPassword || !confirmPassword) {
         alert("Please fill out all fields!");
         return;
     }
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
         alert("Passwords do not match!");
         return;
     }
 
-    // Send signup data to server via fetch API (AJAX)
+    // Send the signup data to the server using fetch
     fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({
+            username: newUsername,
+            password: newPassword
+        })
     })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
             if (data.success) {
-                alert("Account created successfully! Please login.");
-                window.location.href = '/login';  // Redirect to login after successful signup
+                alert("Account created successfully! Please log in.");
+                window.location.href = '/login';  // Redirect to the login page
             } else {
                 alert("Error creating account!");
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("Something went wrong!");
+        .catch((error) => {  // Detailed error logging
+            console.error('Error details:', error);
+            alert("Something went wrong! Check the console for details.");
         });
 });
