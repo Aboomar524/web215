@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Tracker App | Project Overview</title>
+    <link rel="stylesheet" href="styles/default.css">
+</head>
+<body>
+    <div data-include="components/header.html"></div>
+<header style="background-color: #1a1a1a; padding: 1rem; text-align: center; color: #fff;">
+    <h1>Welcome to Birthday Tracker App</h1>
+    <p>Your personal way to keep track of birthdays and special occasions.</p>
+</header>
+
+<main class="container" style="max-width: 800px; margin: 20px auto;">
+    <h2>Project Overview</h2>
+    <p>
+        For my MERN stack final project, I will be building a <strong>Birthday Tracker App</strong> from scratch. The application will allow users to register, log in, and manage a personalized list of friends and family members’ birthdays. Users will be able to create and categorize contacts into groups (e.g., "Family", "Work", "Friends"), view upcoming birthdays, and receive reminders.
+    </p>
+    
+    <h3>Why This Project?</h3>
+    <p>
+        This is a real-world app I would personally use. It helps keep track of important dates, avoids forgetting birthdays, and makes it easy to organize loved ones into meaningful categories.
+    </p>
+
+    <h3>Technologies to be Used:</h3>
+    <ul>
+        <li><strong>Frontend</strong>: React + Tailwind CSS (or Bootstrap)</li>
+        <li><strong>Backend</strong>: Node.js with Express</li>
+        <li><strong>Database</strong>: MongoDB Atlas</li>
+        <li><strong>Authentication</strong>: JWT-based login (possibly using Auth0 or a custom solution)</li>
+        <li><strong>Hosting</strong>: 
+            <ul>
+                <li>Frontend: Vercel or Netlify</li>
+                <li>Backend: Render or Railway</li>
+                <li>Database: MongoDB Atlas (Cloud)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Core Features:</h3>
+    <ul>
+        <li>User registration & login (JWT authentication)</li>
+        <li>Add, edit, and delete birthday entries</li>
+        <li>Categorize contacts into custom groups</li>
+        <li>View upcoming birthdays (sorted by date)</li>
+        <li>Visual reminders for upcoming birthdays</li>
+        <li>Many-to-many relationship:
+            <ul>
+                <li>One user can have many contacts</li>
+                <li>A contact can belong to many groups</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Sample Data:</h3>
+    <p>
+        I will generate and insert at least <strong>12 sample contacts</strong> across <strong>3–4 groups</strong>, with realistic names, dates, and categories (via AI or mock data tools like Mockaroo).
+    </p>
+
+    <h3>GitHub Setup:</h3>
+    <p>
+        I will create a separate branch for this project, independent of GitHub Pages, and add proper links in my personal site’s header/footer to navigate to the hosted app.
+    </p>
+</main>
+
+<div data-include="components/footer.html"></div>
+
+<script src="scripts/HTMLInclude.js"></script>
+</body>
+</html>
