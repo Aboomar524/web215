@@ -11,3 +11,9 @@ function login(event) {
         document.getElementById("error").innerText = "Invalid username or password.";
     }
 }
+function togglePassword() {
+    const passField = document.getElementById("password");
+    passField.type = passField.type === "password" ? "text" : "password";
+}
+document.getElementById("loginForm").addEventListener("submit", login);
+document.getElementById("togglePassword").addEventListener("click", togglePassword);  
