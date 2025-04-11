@@ -1,32 +1,25 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Ahmad Alhomair's Adventurous Anaconda | WEB215</title>
-    <link rel="stylesheet" href="styles/default.css">
-    <script src="https://lint.page/kit/880bd5.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | WEB215</title>
+  <link rel="stylesheet" href="styles/default.css">
 </head>
 <body>
-    <div data-include="components/header.html"></div>
-    <main>
-        <h2>Login</h2>
-        <p>Please enter your username and password to log in.</p>
-        
-        <form action="/login" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br>
+  <main>
+    <h2>Login</h2>
+    <form onsubmit="return login(event)">
+      <label>Username:</label>
+      <input type="text" id="username" required><br><br>
+      <label>Password:</label>
+      <input type="password" id="password" required><br><br>
+      <button type="submit">Login</button>
+    </form>
+    <p id="error" style="color:red;"></p>
+  </main>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-
-            <button type="submit">Login</button>
-        </form>
-
-        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
-    </main>
-    <div data-include="components/footer.html"></div>
-
-    <script src="scripts/HTMLInclude.js"></script>
+  <script src="scripts/login.js"></script>
 </body>
 </html>
