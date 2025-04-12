@@ -51,6 +51,12 @@
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+  
   <h1>🎉 Birthday Tracker</h1>
 
   <form>
