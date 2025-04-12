@@ -52,10 +52,15 @@
 </head>
 <body>
   <script>
-    if (localStorage.getItem("isLoggedIn") !== "true") {
+    const loginStatus = localStorage.getItem("isLoggedIn");
+    console.log("Login status:", loginStatus); // لمتابعة الاختبار
+  
+    if (loginStatus !== "true") {
       window.location.href = "login.html";
     }
   </script>
+  
+  
   
   <h1>🎉 Birthday Tracker</h1>
 
