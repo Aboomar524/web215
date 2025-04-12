@@ -12,11 +12,27 @@
       padding: 2rem;
     }
 
-    h1 {
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .user-info {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
     form {
@@ -26,16 +42,9 @@
       margin-bottom: 2rem;
     }
 
-    input, button {
+    input {
       padding: 0.5rem;
       font-size: 1rem;
-    }
-
-    button {
-      background-color: royalblue;
-      color: white;
-      border: none;
-      border-radius: 4px;
     }
 
     table {
@@ -48,15 +57,6 @@
       border-bottom: 1px solid #ccc;
       text-align: left;
     }
-
-    #logoutBtn {
-      background-color: crimson;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -67,10 +67,13 @@
     }
   </script>
 
-  <h1>
-    🎉 Birthday Tracker
-    <button id="logoutBtn" onclick="logout()">Logout</button>
-  </h1>
+  <header>
+    <h1>🎉 Birthday Tracker</h1>
+    <div class="user-info">
+      <span id="usernameDisplay"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
 
   <form>
     <input type="text" placeholder="Name" disabled />
@@ -101,6 +104,9 @@
   </table>
 
   <script>
+    const username = localStorage.getItem("currentUser") || "User";
+    document.getElementById("usernameDisplay").textContent = `👤 ${username}`;
+
     function logout() {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("currentUser");
