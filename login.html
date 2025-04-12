@@ -1,36 +1,31 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login | WEB215</title>
-  <link rel="stylesheet" href="styles/default.css">
+  <meta charset="UTF-8">
+  <title>Login to Birthday Tracker</title>
 </head>
 <body>
-  <main>
-    <h2>Login</h2>
-    <form onsubmit="return login(event)">
-      <label>Username:</label>
-      <input type="text" id="username" required><br><br>
-
-      <label>Password:</label>
-      <input type="password" id="password" required>
-      <input type="checkbox" id="showPassword" onclick="togglePassword()"> Show Password
-      <br><br>
-
-      <button type="submit">Login</button>
-    </form>
-
-    <p id="error" style="color:red;"></p>
-  </main>
+  <h2>Login to Access Birthday Tracker</h2>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p id="error" style="color:red;"></p>
 
   <script>
-    function togglePassword() {
-      const passField = document.getElementById("password");
-      passField.type = passField.type === "password" ? "text" : "password";
-    }
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "web215user" && password === "LetMeIn!") {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "birthday.html";
+      } else {
+        document.getElementById("error").textContent = "Invalid credentials.";
+      }
+    });
   </script>
-  <script src="scripts/login.js"></script>
 </body>
 </html>

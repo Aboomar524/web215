@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles/default.css">
 </head>
 <body>
+    <script>
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+          window.location.href = "login.html";
+        }
+      </script>
+      
     <div data-include="components/header.html"></div>
 <header style="background-color: #1a1a1a; padding: 1rem; text-align: center; color: #fff;">
     <h1>Welcome to Birthday Tracker App</h1>
@@ -68,5 +74,13 @@
 <div data-include="components/footer.html"></div>
 
 <script src="scripts/HTMLInclude.js"></script>
+<button onclick="logout()">Logout</button>
+<script>
+  function logout() {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "login.html";
+  }
+</script>
+
 </body>
 </html>
