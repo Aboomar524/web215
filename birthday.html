@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Tracker</title>
+  <link rel="stylesheet" href="styles/default.css">
+</head>
+<body>
+  <!-- 🔐 حماية الصفحة -->
+  <script>
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <header>
+    <h1>🎉 Welcome to Birthday Tracker</h1>
+    <p>This is your secure app page. Only authorized users can access it.</p>
+  </header>
+
+  <main>
+    <p>Here you'll be able to manage birthdays, get reminders, and never miss an important date again.</p>
+  </main>
+
+  <button onclick="logout()">Logout</button>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
