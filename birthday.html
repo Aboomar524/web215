@@ -1,34 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Birthday Tracker</title>
-  <link rel="stylesheet" href="styles/default.css">
+  <link rel="stylesheet" href="styles/default.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    form {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: royalblue;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: not-allowed; /* because it's fake for now */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
-  <!-- 🔐 حماية الصفحة -->
-  <script>
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      window.location.href = "login.html";
-    }
-  </script>
+  <h1>🎉 Birthday Tracker</h1>
 
-  <header>
-    <h1>🎉 Welcome to Birthday Tracker</h1>
-    <p>This is your secure app page. Only authorized users can access it.</p>
-  </header>
+  <form>
+    <input type="text" placeholder="Name" disabled />
+    <input type="date" disabled />
+    <input type="text" placeholder="Note (optional)" disabled />
+    <button disabled>Add</button>
+  </form>
 
-  <main>
-    <p>Here you'll be able to manage birthdays, get reminders, and never miss an important date again.</p>
-  </main>
-
-  <button onclick="logout()">Logout</button>
-
-  <script>
-    function logout() {
-      localStorage.removeItem("isLoggedIn");
-      window.location.href = "login.html";
-    }
-  </script>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Note</th>
+        <th>Days Left</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- sample row just for preview -->
+      <tr>
+        <td>Ali</td>
+        <td>04/20/2025</td>
+        <td>Birthday 🎂</td>
+        <td>8</td>
+        <td>Edit | Delete</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
