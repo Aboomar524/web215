@@ -1,20 +1,21 @@
-function fetchUsers() {
-    fetch('/getUsers')
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.users) {
-                const userList = document.getElementById('userList');
-                userList.innerHTML = '';
-                data.users.forEach((user) => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${user.username}`;
-                    userList.appendChild(listItem);
-                });
-            }
-        })
-        .catch((error) => {
-            console.error('Error fetching users:', error);
-        });
-}
+<script>
+    function fetchUsers() {
+    const users = JSON.parse(localStorage.getItem("usersList")) || [];
+    const userList = document.getElementById('userList');
+    userList.innerHTML = '';
 
-document.addEventListener('DOMContentLoaded', fetchUsers);
+    if (users.length === 0) {
+      const listItem = document.createElement('li');
+    listItem.textContent = "No users registered.";
+    userList.appendChild(listItem);
+    } else {
+        users.forEach((user) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = user.username;
+            userList.appendChild(listItem);
+        });
+    }
+  }
+
+    document.addEventListener('DOMContentLoaded', fetchUsers);
+</script>
