@@ -21,9 +21,8 @@
       const password = document.getElementById("password").value;
 
       const users = JSON.parse(localStorage.getItem("usersList")) || [];
-      const matchedUser = users.find(
-        (user) => user.username === username && user.password === password
-      );
+      const matchedUser = users.find((user) => user.username === username && user.password === password);
+
 
       if (matchedUser) {
         localStorage.setItem("isLoggedIn", "true");
