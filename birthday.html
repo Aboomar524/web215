@@ -16,6 +16,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      justify-content: space-between;
     }
 
     form {
@@ -35,7 +36,6 @@
       color: white;
       border: none;
       border-radius: 4px;
-      cursor: not-allowed; /* because it's fake for now */
     }
 
     table {
@@ -48,21 +48,29 @@
       border-bottom: 1px solid #ccc;
       text-align: left;
     }
+
+    #logoutBtn {
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <script>
     const loginStatus = localStorage.getItem("isLoggedIn");
-    console.log("Login status:", loginStatus); // لمتابعة الاختبار
-  
     if (loginStatus !== "true") {
       window.location.href = "login.html";
     }
   </script>
-  
-  
-  
-  <h1>🎉 Birthday Tracker</h1>
+
+  <h1>
+    🎉 Birthday Tracker
+    <button id="logoutBtn" onclick="logout()">Logout</button>
+  </h1>
 
   <form>
     <input type="text" placeholder="Name" disabled />
@@ -82,7 +90,6 @@
       </tr>
     </thead>
     <tbody>
-      <!-- sample row just for preview -->
       <tr>
         <td>Ali</td>
         <td>04/20/2025</td>
@@ -92,5 +99,13 @@
       </tr>
     </tbody>
   </table>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("currentUser");
+      window.location.href = "login.html";
+    }
+  </script>
 </body>
 </html>
