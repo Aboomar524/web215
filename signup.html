@@ -12,25 +12,24 @@
     <button type="submit">Sign Up</button>
   </form>
   <p id="signupMsg" style="color: green;"></p>
+<div id="loginLink" style="margin-top: 10px;"></div>
 
-  <script>
+<script>
     document.getElementById("signupForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const newUser = document.getElementById("newUsername").value;
       const newPass = document.getElementById("newPassword").value;
-
-      // Fetch existing users or start fresh
+  
       const users = JSON.parse(localStorage.getItem("usersList")) || [];
-
-      // Add new user
       users.push({ username: newUser, password: newPass });
-
-      // Save to localStorage
       localStorage.setItem("usersList", JSON.stringify(users));
-
+  
       document.getElementById("signupMsg").textContent = "Signup successful!";
       document.getElementById("signupForm").reset();
+  
+      document.getElementById("loginLink").innerHTML = `<a href="login.html">Click here to log in</a>`;
     });
   </script>
+  
 </body>
 </html>
