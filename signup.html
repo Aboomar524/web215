@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup | Ahmad Alhomair's Adventurous Anaconda | WEB215</title>
-    <link rel="stylesheet" href="styles/default.css">
-    <script src="https://lint.page/kit/880bd5.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <title>Sign Up</title>
 </head>
 <body>
-    <div data-include="components/header.html"></div>
-    <main>
-        <h2>Signup</h2>
-        <p>Please fill in the form below to create a new account.</p>
+  <h2>Sign up for Birthday Tracker</h2>
+  <form id="signupForm">
+    <input type="text" id="newUsername" placeholder="Username" required>
+    <input type="password" id="newPassword" placeholder="Password" required>
+    <button type="submit">Sign Up</button>
+  </form>
+  <p id="signupMsg" style="color: green;"></p>
 
-        <!-- Signup Form -->
-        <form id="signupForm">
-            <label for="newUsername">Username:</label>
-            <input type="text" id="newUsername" name="newUsername" required><br>
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const newUser = document.getElementById("newUsername").value;
+      const newPass = document.getElementById("newPassword").value;
 
-            <label for="newPassword">Password:</label>
-            <input type="password" id="newPassword" name="newPassword" required><br>
+      // Fetch existing users or start fresh
+      const users = JSON.parse(localStorage.getItem("usersList")) || [];
 
-            <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+      // Add new user
+      users.push({ username: newUser, password: newPass });
 
-            <button type="submit">Sign Up</button>
-        </form>
+      // Save to localStorage
+      localStorage.setItem("usersList", JSON.stringify(users));
 
-        <p>Already have an account? <a href="login.html">Login here</a></p>
-    </main>
-    <div data-include="components/footer.html"></div>
-
-    <script src="scripts/signup.js"></script> <!-- Link to the signup.js file -->
+      document.getElementById("signupMsg").textContent = "Signup successful!";
+      document.getElementById("signupForm").reset();
+    });
+  </script>
 </body>
 </html>
