@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/web215/birthday-tracker-app/static/css/main.3ce7bc41.css",
-    "main.js": "/web215/birthday-tracker-app/static/js/main.6a8236a1.js",
+    "main.js": "/web215/birthday-tracker-app/static/js/main.6677ce83.js",
     "index.html": "/web215/birthday-tracker-app/index.html",
     "main.3ce7bc41.css.map": "/web215/birthday-tracker-app/static/css/main.3ce7bc41.css.map",
-    "main.6a8236a1.js.map": "/web215/birthday-tracker-app/static/js/main.6a8236a1.js.map"
+    "main.6677ce83.js.map": "/web215/birthday-tracker-app/static/js/main.6677ce83.js.map"
   },
   "entrypoints": [
     "static/css/main.3ce7bc41.css",
-    "static/js/main.6a8236a1.js"
+    "static/js/main.6677ce83.js"
   ]
 }
