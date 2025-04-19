@@ -16,11 +16,14 @@
   <body>
     <!-- 🔐 AUTH CHECK SCRIPT -->
     <script>
-      const isAuthenticated = localStorage.getItem("isAuthenticated");
-      if (isAuthenticated !== "true") {
-        window.location.href = "../login.html"; // Redirect to login if not authenticated
-      }
-    </script>
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        console.log("Auth check:", isAuthenticated);
+        if (isAuthenticated !== "true") {
+          alert("Not logged in. Redirecting...");
+          window.location.href = "../login.html";
+        }
+      </script>
+      
 
     <div id="root"></div>
   </body>
