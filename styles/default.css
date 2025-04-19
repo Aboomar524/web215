@@ -18,10 +18,14 @@ li {
   --primary-color: #1c1c1c;
   --secondary-color: #2e3b4e;
   --accent-color: #ff6f61;
-  --background-color: #12121222;
+  --background-color: #121212;
   --text-color: #e0e0e0;
   --highlight-color: #ffeb3b;
   --link-hover-color: #ff9800;
+  --input-bg: #2c2c2c;
+  --input-border: #555;
+  --table-bg: #1e1e1e;
+  --table-text: #f0f0f0;
 }
 
 body {
@@ -39,7 +43,6 @@ header {
   text-align: center;
   font-weight: bold;
   letter-spacing: 2px;
-  line-height: 1.5;
   font-size: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -47,8 +50,14 @@ header {
 header nav ul {
   list-style-type: none;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
+  padding: 1rem;
+}
+
+header nav li {
+  list-style: none;
 }
 
 header nav a {
@@ -144,6 +153,36 @@ figure figcaption {
   color: var(--accent-color);
 }
 
+/* Added Input Styling */
+input,
+textarea {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Fix for table text readability */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--table-bg);
+  color: var(--table-text);
+  margin-top: 2rem;
+}
+
+table th,
+table td {
+  border: 1px solid #444;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+/* Responsive Fixes */
 @media only screen and (min-width: 768px) {
   header {
     display: flex;
@@ -157,8 +196,8 @@ figure figcaption {
   }
 
   header nav li a {
-    font-size: 1.5rem;
-    width: 200px;
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
   }
 
   footer {
