@@ -18,10 +18,8 @@ li {
   --primary-color: #1c1c1c;
   --secondary-color: #2e3b4e;
   --accent-color: #ff6f61;
-  /* Keep accent color for highlights and buttons */
   --background-color: #121212;
   --text-color: #ffffff;
-  /* Changed to white instead of #e0e0e0 */
   --highlight-color: #ffeb3b;
   --link-hover-color: #ff9800;
   --input-bg: #2c2c2c;
@@ -40,10 +38,31 @@ body {
   font-size: 1rem;
 }
 
+/* Base heading styles - not qualified/namespaced */
+h1 {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+h2 {
+  color: #ffffff;
+  font-size: 1.75rem;
+  margin-bottom: 0.875rem;
+  font-weight: bold;
+}
+
+h3 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: bold;
+}
+
 header {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: #ffffff;
-  /* Changed to white */
   padding: 2rem 0;
   text-align: center;
   font-weight: bold;
@@ -65,10 +84,8 @@ header nav li {
   list-style: none;
 }
 
-/* Navigation with white text instead of orange */
 header nav a {
   color: #ffffff;
-  /* Changed to white */
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease;
@@ -80,15 +97,12 @@ header nav a {
 
 header nav a:hover {
   color: #ffffff;
-  /* Keep white on hover */
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Active state color adjusted */
 header nav a.active {
   background-color: var(--accent-color);
   color: #ffffff;
-  /* Ensure text remains white */
 }
 
 main {
@@ -132,7 +146,6 @@ ul.feature ul {
 footer {
   background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
   color: #ffffff;
-  /* Changed to white */
   text-align: center;
   padding: 1.5rem 0;
   margin-top: 2rem;
@@ -147,7 +160,6 @@ footer nav {
 
 footer nav a {
   color: #ffffff;
-  /* Changed to white */
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
@@ -178,17 +190,14 @@ figure figcaption {
   margin-top: 1rem;
   font-style: italic;
   color: #ffffff;
-  /* Changed to white */
 }
 
-/* Input Styling */
 input,
 textarea,
 select,
 button {
   background-color: var(--input-bg);
   color: #ffffff;
-  /* Changed to white */
   border: 1px solid var(--input-border);
   padding: 0.5rem;
   border-radius: 5px;
@@ -207,13 +216,11 @@ button:focus {
   box-shadow: 0 0 0 2px rgba(77, 144, 254, 0.2);
 }
 
-/* Button styling */
 button,
 input[type="submit"],
 input[type="button"] {
   background-color: var(--accent-color);
   color: #ffffff;
-  /* Changed to white */
   font-weight: bold;
   cursor: pointer;
   border: none;
@@ -226,10 +233,8 @@ input[type="submit"]:hover,
 input[type="button"]:hover {
   background-color: var(--link-hover-color);
   color: #ffffff;
-  /* Ensure text remains white */
 }
 
-/* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -256,7 +261,6 @@ table th {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #ffffff;
-  /* Ensure header text is white */
 }
 
 /* Birthday Tracker specific styling */
@@ -268,9 +272,8 @@ table th {
   text-align: center;
 }
 
-.birthday-tracker-header h1 {
-  color: #ffffff;
-  /* Changed to white */
+/* Using class instead of targeting h1 directly to avoid qualified heading */
+.birthday-tracker-title {
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
@@ -292,7 +295,6 @@ table th {
   min-width: 100px;
 }
 
-/* Responsive Fixes */
 @media only screen and (min-width: 769px) {
   header {
     display: flex;
@@ -323,12 +325,10 @@ table th {
     width: 100%;
   }
 
-  /* Fix for Birthday Tracker menu item on large screens */
   header nav li:last-child a {
     padding: 0.5rem 1rem;
     display: inline-block;
     white-space: nowrap;
-    /* Prevents text wrapping */
   }
 }
 
@@ -401,13 +401,11 @@ table th {
     width: 100%;
   }
 
-  /* Adjustments for birthday tracker form */
   .birthday-tracker-form {
     flex-direction: column;
   }
 }
 
-/* Accessibility improvements */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -419,7 +417,6 @@ table th {
   border: 0;
 }
 
-/* Auth forms */
 .auth-form {
   max-width: 400px;
   margin: 0 auto;
@@ -428,11 +425,10 @@ table th {
   border-radius: 8px;
 }
 
-.auth-form h2 {
+/* Using class for auth form title instead of qualifying h2 */
+.auth-form-title {
   margin-bottom: 1.5rem;
   text-align: center;
-  color: #ffffff;
-  /* Changed to white */
 }
 
 .auth-form .form-group {
@@ -452,11 +448,9 @@ table th {
 
 .auth-form .form-footer a {
   color: #ffffff;
-  /* Changed to white */
   text-decoration: underline;
 }
 
-/* Login/signup feedback messages */
 .message {
   padding: 1rem;
   margin: 1rem 0;
