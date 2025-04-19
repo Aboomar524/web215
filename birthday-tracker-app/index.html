@@ -17,12 +17,12 @@
     <!-- 🔐 AUTH CHECK SCRIPT -->
     <script>
         const isAuthenticated = localStorage.getItem("isAuthenticated");
-        console.log("Auth check:", isAuthenticated);
         if (isAuthenticated !== "true") {
           alert("Not logged in. Redirecting...");
-          window.location.href = "../login.html";
+          window.location.href = "/login.html"; // ← هذا هو الصح على GitHub Pages
         }
       </script>
+      
       
 
     <div id="root"></div>
