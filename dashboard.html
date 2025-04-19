@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | Birthday Tracker</title>
+  <link rel="stylesheet" href="styles/default.css" />
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    main {
+      max-width: 950px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 0.5rem;
+      text-align: center;
+      color: #007bff;
+    }
+    #userInfo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    #userInfo button {
+      margin-left: 10px;
+      padding: 5px 12px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    input {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex: 1;
+    }
+    button.add-btn {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .edit-btn {
+      background-color: gold;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h2>🎉 Birthday Tracker</h2>
+    <div id="userInfo">
+      <span>Welcome, <strong id="usernameDisplay">web215user</strong>!</span>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <form id="birthdayForm">
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="date" id="date" required />
+      <input type="text" id="note" placeholder="Note (optional)" />
+      <button type="submit" class="add-btn">Add</button>
+    </form>
+
+    <table id="birthdayTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Note</th>
+          <th>Days Left</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic rows go here -->
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    // Protect the page
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    if (isAuthenticated !== "true") {
+      window.location.href = "login.html";
+    }
+
+    const birthdayForm = document.getElementById("birthdayForm");
+    const tableBody = document.querySelector("#birthdayTable tbody");
+
+    // Load from storage
+    window.onload = function () {
+      const stored = JSON.parse(localStorage.getItem("birthdays")) || [];
+      stored.forEach(entry => addRow(entry));
+    };
+
+    birthdayForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const date = document.getElementById("date").value;
+      const note = document.getElementById("note").value.trim();
+      if (!name || !date) return;
+
+      const newEntry = { name, date, note };
+      const stored = JSON.parse(localStorage.getItem("birthdays")) || [];
+      stored.push(newEntry);
+      localStorage.setItem("birthdays", JSON.stringify(stored));
+
+      addRow(newEntry);
+      birthdayForm.reset();
+    });
+
+    function getDaysLeft(dateString) {
+      const today = new Date();
+      const birthday = new Date(dateString);
+      birthday.setFullYear(today.getFullYear());
+      if (birthday < today) birthday.setFullYear(today.getFullYear() + 1);
+      const diff = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
+      return `${diff} days`;
+    }
+
+    function addRow(entry) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${entry.name}</td>
+        <td>${entry.date}</td>
+        <td>${entry.note || ""}</td>
+        <td>${getDaysLeft(entry.date)}</td>
+        <td>
+          <button class="edit-btn" onclick="editEntry(this)">Edit</button>
+          <button class="delete-btn" onclick="deleteEntry(this)">Delete</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    }
+
+    function editEntry(btn) {
+      const row = btn.closest("tr");
+      document.getElementById("name").value = row.children[0].textContent;
+      document.getElementById("date").value = row.children[1].textContent;
+      document.getElementById("note").value = row.children[2].textContent;
+      deleteEntry(btn); // remove before re-adding
+    }
+
+    function deleteEntry(btn) {
+      const row = btn.closest("tr");
+      const name = row.children[0].textContent;
+      const date = row.children[1].textContent;
+      let stored = JSON.parse(localStorage.getItem("birthdays")) || [];
+      stored = stored.filter(e => !(e.name === name && e.date === date));
+      localStorage.setItem("birthdays", JSON.stringify(stored));
+      row.remove();
+    }
+
+    function logout() {
+      localStorage.removeItem("isAuthenticated");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>
