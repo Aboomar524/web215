@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const API_URL = 'https://birthday-tracker-api.onrender.com/api/birthdays';
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 
 
