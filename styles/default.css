@@ -35,26 +35,26 @@ body {
   font-size: 1rem;
 }
 
-/* Base heading styles - not qualified/namespaced */
-h1 {
+h1,
+h2,
+h3 {
   color: #ffffff;
-  font-size: 2rem;
-  margin-bottom: 1rem;
   font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
 }
 
 h2 {
-  color: #ffffff;
   font-size: 1.75rem;
   margin-bottom: 0.875rem;
-  font-weight: bold;
 }
 
 h3 {
-  color: #ffffff;
   font-size: 1.5rem;
   margin-bottom: 0.75rem;
-  font-weight: bold;
 }
 
 header {
@@ -62,8 +62,6 @@ header {
   color: #ffffff;
   padding: 2rem 0;
   text-align: center;
-  font-weight: bold;
-  letter-spacing: 2px;
   font-size: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -93,11 +91,10 @@ header nav a {
 }
 
 header nav a:hover {
-  color: #ffffff;
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-header nav a.active {
+header nav .active {
   background-color: var(--accent-color);
   color: #ffffff;
 }
@@ -229,7 +226,6 @@ button:hover,
 input[type="submit"]:hover,
 input[type="button"]:hover {
   background-color: var(--link-hover-color);
-  color: #ffffff;
 }
 
 table {
@@ -269,7 +265,6 @@ table th {
   text-align: center;
 }
 
-/* Using class instead of targeting h1 directly to avoid qualified heading */
 .birthday-tracker-title {
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -422,7 +417,6 @@ table th {
   border-radius: 8px;
 }
 
-/* Using class for auth form title instead of qualifying h2 */
 .auth-form-title {
   margin-bottom: 1.5rem;
   text-align: center;
