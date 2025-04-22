@@ -121,90 +121,106 @@
 
   <script>
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-const currentUser = localStorage.getItem("username");
+    const currentUser = localStorage.getItem("username");
 
-if (isAuthenticated !== "true" || !currentUser) {
-  window.location.href = "login.html";
-}
+    if (isAuthenticated !== "true" || !currentUser) {
+      window.location.href = "login.html";
+    }
 
-document.getElementById("usernameDisplay").textContent = currentUser;
+    document.getElementById("usernameDisplay").textContent = currentUser;
 
-const birthdayForm = document.getElementById("birthdayForm");
-const tableBody = document.querySelector("#birthdayTable tbody");
+    const birthdayForm = document.getElementById("birthdayForm");
+    const tableBody = document.querySelector("#birthdayTable tbody");
+    let editIndex = null;
 
-// Load only current user's birthdays
-window.onload = function () {
-  const allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
-  const userBirthdays = allBirthdays.filter(entry => entry.owner === currentUser);
-  userBirthdays.forEach(entry => addRow(entry));
-};
+    function renderTable() {
+      tableBody.innerHTML = "";
+      const allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
+      const userBirthdays = allBirthdays.filter(entry => entry.owner === currentUser);
+      userBirthdays.forEach(entry => addRow(entry));
+    }
 
-birthdayForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  const date = document.getElementById("date").value;
-  const note = document.getElementById("note").value.trim();
-  if (!name || !date) return;
+    window.onload = renderTable;
 
-  const newEntry = { name, date, note, owner: currentUser };
-  const allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
-  allBirthdays.push(newEntry);
-  localStorage.setItem("birthdays", JSON.stringify(allBirthdays));
+    birthdayForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const date = document.getElementById("date").value;
+      const note = document.getElementById("note").value.trim();
+      if (!name || !date) return;
 
-  addRow(newEntry);
-  birthdayForm.reset();
-});
+      const allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
 
-function getDaysLeft(dateString) {
-  const today = new Date();
-  const birthday = new Date(dateString);
-  birthday.setFullYear(today.getFullYear());
-  if (birthday < today) birthday.setFullYear(today.getFullYear() + 1);
-  const diff = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
-  return `${diff} days`;
-}
+      if (editIndex !== null) {
+        allBirthdays[editIndex] = { name, date, note, owner: currentUser };
+        editIndex = null;
+      } else {
+        allBirthdays.push({ name, date, note, owner: currentUser });
+      }
 
-function addRow(entry) {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${entry.name}</td>
-    <td>${entry.date}</td>
-    <td>${entry.note || ""}</td>
-    <td>${getDaysLeft(entry.date)}</td>
-    <td>
-      <button class="edit-btn" onclick="editEntry(this)">Edit</button>
-      <button class="delete-btn" onclick="deleteEntry(this)">Delete</button>
-    </td>
-  `;
-  tableBody.appendChild(row);
-}
+      localStorage.setItem("birthdays", JSON.stringify(allBirthdays));
+      renderTable();
+      birthdayForm.reset();
+    });
 
-function editEntry(btn) {
-  const row = btn.closest("tr");
-  document.getElementById("name").value = row.children[0].textContent;
-  document.getElementById("date").value = row.children[1].textContent;
-  document.getElementById("note").value = row.children[2].textContent;
-  deleteEntry(btn);
-}
+    function getDaysLeft(dateString) {
+      const today = new Date();
+      const birthday = new Date(dateString);
+      birthday.setFullYear(today.getFullYear());
+      if (birthday < today) birthday.setFullYear(today.getFullYear() + 1);
+      const diff = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
+      return `${diff} days`;
+    }
 
-function deleteEntry(btn) {
-  const row = btn.closest("tr");
-  const name = row.children[0].textContent;
-  const date = row.children[1].textContent;
-  let allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
-  allBirthdays = allBirthdays.filter(e =>
-    !(e.name === name && e.date === date && e.owner === currentUser)
-  );
-  localStorage.setItem("birthdays", JSON.stringify(allBirthdays));
-  row.remove();
-}
+    function addRow(entry) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${entry.name}</td>
+        <td>${entry.date}</td>
+        <td>${entry.note || ""}</td>
+        <td>${getDaysLeft(entry.date)}</td>
+        <td>
+          <button class="edit-btn" onclick="editEntry(this)">Edit</button>
+          <button class="delete-btn" onclick="deleteEntry(this)">Delete</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    }
 
-function logout() {
-  localStorage.removeItem("isAuthenticated");
-  localStorage.removeItem("username");
-  window.location.href = "login.html";
-}
+    function editEntry(btn) {
+      const row = btn.closest("tr");
+      const name = row.children[0].textContent;
+      const date = row.children[1].textContent;
+      const note = row.children[2].textContent;
 
+      document.getElementById("name").value = name;
+      document.getElementById("date").value = date;
+      document.getElementById("note").value = note;
+
+      const allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
+      editIndex = allBirthdays.findIndex(e =>
+        e.name === name && e.date === date && e.owner === currentUser
+      );
+    }
+
+    function deleteEntry(btn) {
+      const row = btn.closest("tr");
+      const name = row.children[0].textContent;
+      const date = row.children[1].textContent;
+
+      let allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
+      allBirthdays = allBirthdays.filter(e =>
+        !(e.name === name && e.date === date && e.owner === currentUser)
+      );
+      localStorage.setItem("birthdays", JSON.stringify(allBirthdays));
+      renderTable();
+    }
+
+    function logout() {
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("username");
+      window.location.href = "login.html";
+    }
   </script>
 
 </body>
