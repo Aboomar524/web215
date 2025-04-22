@@ -5,11 +5,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     const password = document.getElementById("password").value.trim();
     const errorMessage = document.getElementById("error");
 
-    const users = {
-        "web215user": "LetMeIn!",
-        "ahmad": "mypassword123",
-        "testuser": "test123"
-    };
+    const users = JSON.parse(localStorage.getItem("users")) || {};
 
     if (users[username] && users[username] === password) {
         localStorage.setItem("isAuthenticated", "true");
