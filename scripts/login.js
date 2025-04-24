@@ -1,10 +1,8 @@
 // Initialize default user if none exists
-if (!localStorage.getItem("users")) {
-    const defaultUsers = {
-        "web215user": "LetMeIn!"
-    };
-    localStorage.setItem("users", JSON.stringify(defaultUsers));
-}
+const existingUsers = JSON.parse(localStorage.getItem("users")) || {};
+existingUsers["web215user"] = "LetMeIn!";
+localStorage.setItem("users", JSON.stringify(existingUsers));
+
 
 // Handle form submission
 document.getElementById("loginForm").addEventListener("submit", function (e) {
