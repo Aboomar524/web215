@@ -1,7 +1,7 @@
 
 if (!localStorage.getItem("users")) {
     const defaultUsers = {
-        "web215user": "LetMeIn!)" //    
+        "web215user": "LetMeIn!" //    
     };
     localStorage.setItem("users", JSON.stringify(defaultUsers));
 }
