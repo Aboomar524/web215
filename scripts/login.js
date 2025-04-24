@@ -1,3 +1,11 @@
+// ✅ أضف هذا الجزء قبل listener لتجهيز المستخدم الافتراضي
+if (!localStorage.getItem("users")) {
+    const defaultUsers = {
+        "web215user": "password123" // عدّل الباسورد حسب المطلوب
+    };
+    localStorage.setItem("users", JSON.stringify(defaultUsers));
+}
+
 document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
