@@ -28,12 +28,12 @@
       margin-bottom: 2rem;
     }
     #welcomeMessage {
-  display: block;
-  color: #2c3e50;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+      display: block;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     #userInfo span {
       font-size: 1.2rem;
       color: #555;
@@ -98,8 +98,8 @@
     }
   </style>
 </head>
-<body>
 
+<body>
   <main>
     <h2>🎉 Birthday Tracker</h2>
     <div id="userInfo">
@@ -209,14 +209,54 @@
       const date = row.children[1].textContent;
       const note = row.children[2].textContent;
 
-      document.getElementById("name").value = name;
-      document.getElementById("date").value = date;
-      document.getElementById("note").value = note;
+      const originalData = { name, date, note };
 
-      const allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
-      editIndex = allBirthdays.findIndex(e =>
-        e.name === name && e.date === date && e.owner === currentUser
+      row.innerHTML = `
+        <td><input type="text" value="${name}" id="edit-name"></td>
+        <td><input type="date" value="${date}" id="edit-date"></td>
+        <td><input type="text" value="${note}" id="edit-note"></td>
+        <td>${getDaysLeft(date)}</td>
+        <td>
+          <button class="add-btn" onclick="updateEntry(this, '${originalData.name}', '${originalData.date}', '${originalData.note}')">Update</button>
+          <button class="delete-btn" onclick="cancelEdit(this, '${originalData.name}', '${originalData.date}', '${originalData.note}')">Cancel</button>
+        </td>
+      `;
+    }
+
+    function updateEntry(btn, oldName, oldDate, oldNote) {
+      const row = btn.closest("tr");
+      const name = row.querySelector("#edit-name").value.trim();
+      const date = row.querySelector("#edit-date").value;
+      const note = row.querySelector("#edit-note").value.trim();
+
+      if (!name || !date) return;
+
+      let allBirthdays = JSON.parse(localStorage.getItem("birthdays")) || [];
+
+      const index = allBirthdays.findIndex(e =>
+        e.name === oldName && e.date === oldDate && e.owner === currentUser
       );
+
+      if (index !== -1) {
+        allBirthdays[index] = { name, date, note, owner: currentUser };
+        localStorage.setItem("birthdays", JSON.stringify(allBirthdays));
+      }
+
+      renderTable();
+    }
+
+    function cancelEdit(btn, oldName, oldDate, oldNote) {
+      const row = btn.closest("tr");
+      row.innerHTML = `
+        <td>${oldName}</td>
+        <td>${oldDate}</td>
+        <td>${oldNote || ""}</td>
+        <td>${getDaysLeft(oldDate)}</td>
+        <td>
+          <button class="edit-btn" onclick="editEntry(this)">Edit</button>
+          <button class="delete-btn" onclick="deleteEntry(this)">Delete</button>
+        </td>
+      `;
     }
 
     function deleteEntry(btn) {
@@ -238,6 +278,5 @@
       window.location.href = "login.html";
     }
   </script>
-
 </body>
 </html>
