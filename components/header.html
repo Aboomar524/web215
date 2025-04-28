@@ -1,37 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>WEB215</title>
-  <link rel="stylesheet" href="styles/default.css">
-</head>
-<body>
-  <!-- كل هذا المفروض يكون هنا داخل <body> -->
-  <header>
-    <h1>Ahmad Alhomair's Adventurous Anaconda | WEB215</h1>
-    <nav>
-      <ul class="navbar">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="introduction.html">Introduction</a></li>
-        <li><a href="contract.html">Contract</a></li>
-        <li><a href="https://taskmanger-app-1.onrender.com/">MERN Tutorial</a></li>
-        <li><a href="my_project_description.html">My app description</a></li>
-        <li><a href="dashboard.html">app skeleton</a></li>
-        <li><a id="birthdayAppLink" href="#">Launch Birthday Tracker App</a></li>
-      </ul>
-    </nav>
-  </header>
-  <script>
-    const isAuth = localStorage.getItem("isAuthenticated") === "true";
-    const link = document.getElementById("birthdayAppLink");
 
-    if (isAuth) {
-      link.href = "birthday-tracker/index.html"; 
-      link.innerHTML = "Launch Birthday Tracker App";
-    } else {
-      link.href = "login.html";
-      link.innerHTML = "Launch Birthday Tracker App 🔒";
-    }
-  </script>
-</body>
-</html>
+<header>
+  <h1>Ahmad Alhomair's Adventurous Anaconda | WEB215</h1>
+  <nav>
+      <ul class="navbar">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="introduction.html">Introduction</a></li>
+          <li><a href="contract.html">Contract</a></li>
+          <li><a href="https://taskmanger-app-1.onrender.com/">MERN Tutorial</a></li>
+          <li><a href="my_project_description.html">My app description</a></li> 
+          <li><a href="dashboard.html">app skeleton</a></li> 
+          <a href="birthday-tracker-app/" target="_blank">Launch Birthday Tracker App 🔒</a>
+      </ul>
+  </nav>
+</header>
