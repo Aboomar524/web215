@@ -1,6 +1,8 @@
+// App.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -9,14 +11,21 @@ const App = () => {
   const [editingId, setEditingId] = useState(null);
   const [editFormData, setEditFormData] = useState({ name: '', date: '', note: '' });
   const [formData, setFormData] = useState({ name: '', date: '', note: '' });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchBirthdays();
   }, []);
 
   const fetchBirthdays = async () => {
-    const res = await axios.get(API_URL);
-    setBirthdays(res.data);
+    try {
+      const res = await axios.get(API_URL);
+      setBirthdays(res.data);
+    } catch (error) {
+      console.error('Error fetching birthdays:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -32,6 +41,13 @@ const App = () => {
     await axios.post(API_URL, formData);
     setFormData({ name: '', date: '', note: '' });
     fetchBirthdays();
+    Swal.fire({
+      icon: 'success',
+      title: 'Added!',
+      text: 'Birthday added successfully.',
+      timer: 1500,
+      showConfirmButton: false
+    });
   };
 
   const handleEdit = (birthday) => {
@@ -43,15 +59,35 @@ const App = () => {
     await axios.put(`${API_URL}/${id}`, editFormData);
     setEditingId(null);
     fetchBirthdays();
+    Swal.fire({
+      icon: 'success',
+      title: 'Updated!',
+      text: 'Birthday updated successfully.',
+      timer: 1500,
+      showConfirmButton: false
+    });
   };
 
   const handleCancel = () => {
     setEditingId(null);
   };
 
-  const handleDelete = async (id) => {
-    await axios.delete(`${API_URL}/${id}`);
-    fetchBirthdays();
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axios.delete(`${API_URL}/${id}`);
+        fetchBirthdays();
+        Swal.fire('Deleted!', 'Birthday has been deleted.', 'success');
+      }
+    });
   };
 
   const calculateDaysLeft = (date) => {
@@ -65,6 +101,16 @@ const App = () => {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
