@@ -14,8 +14,6 @@ const App = () => {
   const [formData, setFormData] = useState({ name: '', date: '', note: '' });
   const [loading, setLoading] = useState(true);
 
-  const currentUser = localStorage.getItem('currentUser'); // ✅ المستخدم الحالي
-
   useEffect(() => {
     const status = localStorage.getItem('loggedIn');
     setIsLoggedIn(status === 'true');
@@ -28,8 +26,9 @@ const App = () => {
   }, []);
 
   const fetchBirthdays = async () => {
+    const user = localStorage.getItem('currentUser');
     try {
-      const res = await axios.get(`${API_URL}?user=${currentUser}`); // ✅ user في GET
+      const res = await axios.get(`${API_URL}?user=${user}`);
       setBirthdays(res.data);
     } catch (error) {
       console.error('Error fetching birthdays:', error);
@@ -63,7 +62,7 @@ const App = () => {
     e.preventDefault();
     await axios.post(API_URL, {
       ...formData,
-      username: currentUser // ✅ username في POST
+      username: localStorage.getItem('currentUser')
     });
     setFormData({ name: '', date: '', note: '' });
     fetchBirthdays();
@@ -84,7 +83,7 @@ const App = () => {
   const handleUpdate = async (id) => {
     await axios.put(`${API_URL}/${id}`, {
       ...editFormData,
-      username: currentUser // ✅ username في PUT
+      username: localStorage.getItem('currentUser')
     });
     setEditingId(null);
     fetchBirthdays();
@@ -113,7 +112,7 @@ const App = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axios.delete(`${API_URL}/${id}`, {
-          data: { username: currentUser } // ✅ username في DELETE
+          data: { username: localStorage.getItem('currentUser') }
         });
         fetchBirthdays();
         Swal.fire('Deleted!', 'Birthday has been deleted.', 'success');
