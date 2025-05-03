@@ -1,31 +1,54 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import Login from './Login';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [birthdays, setBirthdays] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editFormData, setEditFormData] = useState({ name: '', date: '', note: '' });
   const [formData, setFormData] = useState({ name: '', date: '', note: '' });
   const [loading, setLoading] = useState(true);
 
+  const currentUser = localStorage.getItem('currentUser'); // ✅ المستخدم الحالي
+
   useEffect(() => {
-    fetchBirthdays();
+    const status = localStorage.getItem('loggedIn');
+    setIsLoggedIn(status === 'true');
+
+    if (status === 'true') {
+      fetchBirthdays();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const fetchBirthdays = async () => {
     try {
-      const res = await axios.get(API_URL);
+      const res = await axios.get(`${API_URL}?user=${currentUser}`); // ✅ user في GET
       setBirthdays(res.data);
     } catch (error) {
       console.error('Error fetching birthdays:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('loggedIn', 'true');
+    setLoading(true);
+    fetchBirthdays();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('currentUser');
+    setIsLoggedIn(false);
   };
 
   const handleChange = (e) => {
@@ -38,7 +61,10 @@ const App = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(API_URL, formData);
+    await axios.post(API_URL, {
+      ...formData,
+      username: currentUser // ✅ username في POST
+    });
     setFormData({ name: '', date: '', note: '' });
     fetchBirthdays();
     Swal.fire({
@@ -56,7 +82,10 @@ const App = () => {
   };
 
   const handleUpdate = async (id) => {
-    await axios.put(`${API_URL}/${id}`, editFormData);
+    await axios.put(`${API_URL}/${id}`, {
+      ...editFormData,
+      username: currentUser // ✅ username في PUT
+    });
     setEditingId(null);
     fetchBirthdays();
     Swal.fire({
@@ -83,7 +112,9 @@ const App = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axios.delete(`${API_URL}/${id}`);
+        await axios.delete(`${API_URL}/${id}`, {
+          data: { username: currentUser } // ✅ username في DELETE
+        });
         fetchBirthdays();
         Swal.fire('Deleted!', 'Birthday has been deleted.', 'success');
       }
@@ -112,41 +143,26 @@ const App = () => {
     );
   }
 
+  if (!isLoggedIn) {
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">🎉 Birthday Tracker</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>🎉 Birthday Tracker</h2>
+        <button onClick={handleLogout} className="btn btn-outline-danger">Logout</button>
+      </div>
 
       <form onSubmit={handleSubmit} className="row g-3 mb-4">
         <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" className="form-control" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
         </div>
         <div className="col-md-4">
-          <input
-            type="date"
-            className="form-control"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
+          <input type="date" className="form-control" name="date" value={formData.date} onChange={handleChange} required />
         </div>
         <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            name="note"
-            placeholder="Note (optional)"
-            value={formData.note}
-            onChange={handleChange}
-          />
+          <input type="text" className="form-control" name="note" placeholder="Note (optional)" value={formData.note} onChange={handleChange} />
         </div>
         <div className="col-12">
           <button type="submit" className="btn btn-primary">Add</button>
@@ -168,33 +184,9 @@ const App = () => {
             <tr key={b._id}>
               {editingId === b._id ? (
                 <>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="name"
-                      value={editFormData.name}
-                      onChange={handleEditChange}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="date"
-                      className="form-control"
-                      name="date"
-                      value={editFormData.date}
-                      onChange={handleEditChange}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="note"
-                      value={editFormData.note}
-                      onChange={handleEditChange}
-                    />
-                  </td>
+                  <td><input type="text" className="form-control" name="name" value={editFormData.name} onChange={handleEditChange} /></td>
+                  <td><input type="date" className="form-control" name="date" value={editFormData.date} onChange={handleEditChange} /></td>
+                  <td><input type="text" className="form-control" name="note" value={editFormData.note} onChange={handleEditChange} /></td>
                   <td>{calculateDaysLeft(editFormData.date)} days</td>
                   <td>
                     <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(b._id)}>Update</button>
