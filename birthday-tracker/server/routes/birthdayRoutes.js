@@ -1,18 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const Birthday = require('../models/birthday');
 
-// النموذج
-const birthdaySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  date: { type: Date, required: true },
-  note: { type: String },
-  username: { type: String, required: true } // 🔐 صاحب السجل
-});
-
-const Birthday = mongoose.model('Birthday', birthdaySchema);
-
-// ✅ جلب أعياد ميلاد المستخدم
+// 🔍 Get all birthdays for a specific user
 router.get('/', async (req, res) => {
   const { user } = req.query;
   if (!user) return res.status(400).json({ error: 'Username is required' });
@@ -25,51 +15,51 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ إضافة عيد ميلاد
+// ➕ Add new birthday
 router.post('/', async (req, res) => {
   const { name, date, note, username } = req.body;
   if (!username) return res.status(400).json({ error: 'Username is required' });
 
   try {
-    const birthday = new Birthday({ name, date, note, username });
-    await birthday.save();
-    res.status(201).json(birthday);
+    const newBirthday = new Birthday({ name, date, note, username });
+    await newBirthday.save();
+    res.status(201).json(newBirthday);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to save birthday' });
+    res.status(500).json({ error: 'Error saving birthday' });
   }
 });
 
-// ✅ تحديث عيد ميلاد (فقط إن كان صاحبه)
+// 📝 Update birthday (only if it belongs to the user)
 router.put('/:id', async (req, res) => {
-  const { id } = req.params;
   const { name, date, note, username } = req.body;
+  if (!username) return res.status(400).json({ error: 'Username is required' });
 
   try {
-    const birthday = await Birthday.findOne({ _id: id, username });
-    if (!birthday) return res.status(404).json({ error: 'Not found or unauthorized' });
+    const birthday = await Birthday.findOneAndUpdate(
+      { _id: req.params.id, username }, // ✅ تأكد أن التعديل فقط للمستخدم الصحيح
+      { name, date, note },
+      { new: true }
+    );
 
-    birthday.name = name;
-    birthday.date = date;
-    birthday.note = note;
-    await birthday.save();
+    if (!birthday) return res.status(404).json({ error: 'Not found or not allowed' });
     res.json(birthday);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to update birthday' });
+    res.status(500).json({ error: 'Error updating birthday' });
   }
 });
 
-// ✅ حذف عيد ميلاد (فقط إن كان صاحبه)
+// ❌ Delete birthday (only if it belongs to the user)
 router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
   const { username } = req.body;
+  if (!username) return res.status(400).json({ error: 'Username is required' });
 
   try {
-    const birthday = await Birthday.findOneAndDelete({ _id: id, username });
-    if (!birthday) return res.status(404).json({ error: 'Not found or unauthorized' });
+    const deleted = await Birthday.findOneAndDelete({ _id: req.params.id, username });
 
-    res.json({ message: 'Birthday deleted' });
+    if (!deleted) return res.status(404).json({ error: 'Not found or not allowed' });
+    res.json({ message: 'Deleted' });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to delete birthday' });
+    res.status(500).json({ error: 'Error deleting birthday' });
   }
 });
 
