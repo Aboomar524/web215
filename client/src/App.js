@@ -1,10 +1,10 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+
 import Navbar from './Navbar';
 import Loader from './Loader';
 import Login from './Login';
@@ -13,18 +13,16 @@ import './App.css';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-// Protected Route component
+// ✅ Protected Route
 const ProtectedRoute = ({ children }) => {
   const storedUser = localStorage.getItem('username');
-
   if (!storedUser || storedUser === 'null' || storedUser === 'undefined') {
     return <Navigate to="/login" replace />;
   }
-
   return children;
 };
 
-// Home component (the main birthday tracking app)
+// ✅ Home Component
 const Home = () => {
   const [birthdays, setBirthdays] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -34,9 +32,7 @@ const Home = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('username');
-    if (storedUser) {
-      fetchBirthdays(storedUser);
-    }
+    if (storedUser) fetchBirthdays(storedUser);
   }, []);
 
   const fetchBirthdays = async (username) => {
@@ -46,19 +42,12 @@ const Home = () => {
     } catch (error) {
       console.error('Error fetching birthdays:', error);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setTimeout(() => setLoading(false), 1000);
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleEditChange = (e) => {
-    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleEditChange = (e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,35 +55,19 @@ const Home = () => {
     await axios.post(API_URL, { ...formData, username: storedUser });
     setFormData({ name: '', date: '', note: '' });
     fetchBirthdays(storedUser);
-    Swal.fire({
-      icon: 'success',
-      title: 'Added!',
-      text: 'Birthday added successfully.',
-      timer: 1500,
-      showConfirmButton: false
-    });
+    Swal.fire({ icon: 'success', title: 'Added!', text: 'Birthday added.', timer: 1500, showConfirmButton: false });
   };
 
-  const handleEdit = (birthday) => {
-    setEditingId(birthday._id);
-    setEditFormData({
-      name: birthday.name,
-      date: birthday.date.split('T')[0],
-      note: birthday.note || ''
-    });
+  const handleEdit = (b) => {
+    setEditingId(b._id);
+    setEditFormData({ name: b.name, date: b.date.split('T')[0], note: b.note || '' });
   };
 
   const handleUpdate = async (id) => {
     await axios.put(`${API_URL}/${id}`, editFormData);
     setEditingId(null);
     fetchBirthdays(localStorage.getItem('username'));
-    Swal.fire({
-      icon: 'success',
-      title: 'Updated!',
-      text: 'Birthday updated successfully.',
-      timer: 1500,
-      showConfirmButton: false
-    });
+    Swal.fire({ icon: 'success', title: 'Updated!', text: 'Birthday updated.', timer: 1500, showConfirmButton: false });
   };
 
   const handleCancel = () => setEditingId(null);
@@ -122,8 +95,7 @@ const Home = () => {
     const birthday = new Date(date);
     birthday.setFullYear(today.getFullYear());
     if (birthday < today) birthday.setFullYear(today.getFullYear() + 1);
-    const diffTime = birthday - today;
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
   };
 
   if (loading) return <Loader />;
@@ -131,38 +103,15 @@ const Home = () => {
   return (
     <div className="container mt-5">
       <h2 className="mb-4">🎉 Birthday Tracker</h2>
-
       <form onSubmit={handleSubmit} className="row g-3 mb-4">
         <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="name" className="form-control" placeholder="Name" value={formData.name} onChange={handleChange} required />
         </div>
         <div className="col-md-4">
-          <input
-            type="date"
-            className="form-control"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
+          <input type="date" name="date" className="form-control" value={formData.date} onChange={handleChange} required />
         </div>
         <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            name="note"
-            placeholder="Note (optional)"
-            value={formData.note}
-            onChange={handleChange}
-          />
+          <input type="text" name="note" className="form-control" placeholder="Note (optional)" value={formData.note} onChange={handleChange} />
         </div>
         <div className="col-12">
           <button type="submit" className="btn btn-primary">Add</button>
@@ -171,28 +120,16 @@ const Home = () => {
 
       <table className="table table-striped">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Note</th>
-            <th>Days Left</th>
-            <th>Actions</th>
-          </tr>
+          <tr><th>Name</th><th>Date</th><th>Note</th><th>Days Left</th><th>Actions</th></tr>
         </thead>
         <tbody>
           {birthdays.map((b) => (
             <tr key={b._id}>
               {editingId === b._id ? (
                 <>
-                  <td>
-                    <input type="text" className="form-control" name="name" value={editFormData.name} onChange={handleEditChange} />
-                  </td>
-                  <td>
-                    <input type="date" className="form-control" name="date" value={editFormData.date} onChange={handleEditChange} />
-                  </td>
-                  <td>
-                    <input type="text" className="form-control" name="note" value={editFormData.note} onChange={handleEditChange} />
-                  </td>
+                  <td><input type="text" name="name" className="form-control" value={editFormData.name} onChange={handleEditChange} /></td>
+                  <td><input type="date" name="date" className="form-control" value={editFormData.date} onChange={handleEditChange} /></td>
+                  <td><input type="text" name="note" className="form-control" value={editFormData.note} onChange={handleEditChange} /></td>
                   <td>{calculateDaysLeft(editFormData.date)} days</td>
                   <td>
                     <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(b._id)}>Update</button>
@@ -219,25 +156,18 @@ const Home = () => {
   );
 };
 
-// Main App component with routing
+// ✅ Main App Component
 const App = () => {
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 
