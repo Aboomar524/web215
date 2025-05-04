@@ -1,6 +1,5 @@
-// App.js
 import React, { useEffect, useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
@@ -13,16 +12,13 @@ import './App.css';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-// ✅ Protected Route
 const ProtectedRoute = ({ children }) => {
   const storedUser = localStorage.getItem('username');
-  if (!storedUser || storedUser === 'null' || storedUser === 'undefined') {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
+  return !storedUser || storedUser === 'null' || storedUser === 'undefined'
+    ? <Navigate to="/login" replace />
+    : children;
 };
 
-// ✅ Home Component
 const Home = () => {
   const [birthdays, setBirthdays] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -39,8 +35,8 @@ const Home = () => {
     try {
       const res = await axios.get(`${API_URL}?username=${username}`);
       setBirthdays(res.data);
-    } catch (error) {
-      console.error('Error fetching birthdays:', error);
+    } catch (err) {
+      console.error(err);
     } finally {
       setTimeout(() => setLoading(false), 1000);
     }
@@ -51,10 +47,10 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const storedUser = localStorage.getItem('username');
-    await axios.post(API_URL, { ...formData, username: storedUser });
+    const username = localStorage.getItem('username');
+    await axios.post(API_URL, { ...formData, username });
     setFormData({ name: '', date: '', note: '' });
-    fetchBirthdays(storedUser);
+    fetchBirthdays(username);
     Swal.fire({ icon: 'success', title: 'Added!', text: 'Birthday added.', timer: 1500, showConfirmButton: false });
   };
 
@@ -156,19 +152,16 @@ const Home = () => {
   );
 };
 
-// ✅ Main App with HashRouter (GitHub Pages compatible)
-const App = () => {
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
-  );
-};
+const App = () => (
+  <>
+    <Navbar />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  </>
+);
 
 export default App;
