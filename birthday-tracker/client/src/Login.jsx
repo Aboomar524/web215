@@ -1,49 +1,43 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ onLogin }) => {
-    const [isSignup, setIsSignup] = useState(false);
+function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        setError('');
 
-        if (isSignup) {
-            if (localStorage.getItem(`user_${username}`)) {
-                setError('This username is already taken.');
-            } else {
-                localStorage.setItem(`user_${username}`, password);
-                alert('Account created! You can now log in.');
-                setIsSignup(false);
-                setUsername('');
-                setPassword('');
-            }
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            localStorage.setItem('username', data.username);
+            navigate('/');
         } else {
-            const savedPassword = localStorage.getItem(`user_${username}`);
-            if (savedPassword && savedPassword === password) {
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('currentUser', username); // ✅ تخزين اسم المستخدم الحالي
-                onLogin();
-            } else {
-                setError('Invalid username or password');
-            }
+            setMessage(data.message);
         }
     };
 
     return (
-        <div style={styles.page}>
-            <form style={styles.box} onSubmit={handleSubmit}>
-                <h2 style={styles.title}>{isSignup ? 'Create Account' : 'Login to Birthday Tracker'}</h2>
-                {error && <p style={styles.error}>{error}</p>}
+        <div style={{ maxWidth: '400px', margin: 'auto', marginTop: '100px' }}>
+            <h2>Login</h2>
+            {message && <p style={{ color: 'red' }}>{message}</p>}
+            <form onSubmit={handleLogin}>
                 <input
                     type="text"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
-                    style={styles.input}
+                    style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
                 />
                 <input
                     type="password"
@@ -51,89 +45,12 @@ const Login = ({ onLogin }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    style={styles.input}
+                    style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
                 />
-                <button type="submit" style={styles.button}>
-                    {isSignup ? 'Sign Up' : 'Login'}
-                </button>
-                <p style={styles.footerText}>
-                    {isSignup ? 'Already have an account?' : "Don’t have an account?"}
-                    <span
-                        style={styles.signup}
-                        onClick={() => {
-                            setIsSignup(!isSignup);
-                            setError('');
-                            setUsername('');
-                            setPassword('');
-                        }}
-                    >
-                        {isSignup ? ' Login here' : ' Sign up here'}
-                    </span>
-                </p>
+                <button type="submit" style={{ width: '100%', padding: '8px' }}>Login</button>
             </form>
         </div>
     );
-};
-
-const styles = {
-    page: {
-        backgroundColor: '#111',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 0,
-        fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
-    },
-    box: {
-        backgroundColor: '#1e1e1e',
-        padding: '40px',
-        borderRadius: '16px',
-        boxShadow: '0 0 20px rgba(255, 255, 255, 0.05)',
-        width: '100%',
-        maxWidth: '400px',
-        textAlign: 'center',
-        color: 'white',
-    },
-    title: {
-        marginBottom: '20px',
-    },
-    input: {
-        display: 'block',
-        width: '100%',
-        padding: '12px',
-        marginBottom: '15px',
-        borderRadius: '6px',
-        border: 'none',
-        backgroundColor: '#2a2a2a',
-        color: '#fff',
-        fontSize: '16px',
-    },
-    button: {
-        width: '100%',
-        padding: '12px',
-        backgroundColor: '#ff5f5f',
-        color: 'white',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        border: 'none',
-        borderRadius: '6px',
-        cursor: 'pointer',
-        transition: 'background 0.3s ease',
-    },
-    footerText: {
-        marginTop: '15px',
-        color: '#ccc',
-    },
-    signup: {
-        color: 'yellow',
-        cursor: 'pointer',
-        marginLeft: '5px',
-    },
-    error: {
-        color: 'red',
-        marginBottom: '15px',
-    },
-};
+}
 
 export default Login;

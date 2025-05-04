@@ -1,8 +1,11 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
+import Loader from './Loader';
+import './App.css';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -12,9 +15,15 @@ const App = () => {
   const [editFormData, setEditFormData] = useState({ name: '', date: '', note: '' });
   const [formData, setFormData] = useState({ name: '', date: '', note: '' });
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBirthdays();
+    const storedUser = localStorage.getItem('username');
+    if (!storedUser) {
+      navigate('/login');
+    } else {
+      fetchBirthdays();
+    }
   }, []);
 
   const fetchBirthdays = async () => {
@@ -24,7 +33,9 @@ const App = () => {
     } catch (error) {
       console.error('Error fetching birthdays:', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     }
   };
 
@@ -103,121 +114,118 @@ const App = () => {
   };
 
   if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">🎉 Birthday Tracker</h2>
+    <>
+      <Navbar />
+      <div className="container mt-5">
+        <h2 className="mb-4">🎉 Birthday Tracker</h2>
 
-      <form onSubmit={handleSubmit} className="row g-3 mb-4">
-        <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-md-4">
-          <input
-            type="date"
-            className="form-control"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            name="note"
-            placeholder="Note (optional)"
-            value={formData.note}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-12">
-          <button type="submit" className="btn btn-primary">Add</button>
-        </div>
-      </form>
+        <form onSubmit={handleSubmit} className="row g-3 mb-4">
+          <div className="col-md-4">
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="date"
+              className="form-control"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              className="form-control"
+              name="note"
+              placeholder="Note (optional)"
+              value={formData.note}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary">Add</button>
+          </div>
+        </form>
 
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Note</th>
-            <th>Days Left</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {birthdays.map((b) => (
-            <tr key={b._id}>
-              {editingId === b._id ? (
-                <>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="name"
-                      value={editFormData.name}
-                      onChange={handleEditChange}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="date"
-                      className="form-control"
-                      name="date"
-                      value={editFormData.date}
-                      onChange={handleEditChange}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="note"
-                      value={editFormData.note}
-                      onChange={handleEditChange}
-                    />
-                  </td>
-                  <td>{calculateDaysLeft(editFormData.date)} days</td>
-                  <td>
-                    <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(b._id)}>Update</button>
-                    <button className="btn btn-secondary btn-sm" onClick={handleCancel}>Cancel</button>
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{b.name}</td>
-                  <td>{new Date(b.date).toLocaleDateString()}</td>
-                  <td>{b.note}</td>
-                  <td>{calculateDaysLeft(b.date)} days</td>
-                  <td>
-                    <button className="btn btn-warning btn-sm me-2" onClick={() => handleEdit(b)}>Edit</button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(b._id)}>Delete</button>
-                  </td>
-                </>
-              )}
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Note</th>
+              <th>Days Left</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {birthdays.map((b) => (
+              <tr key={b._id}>
+                {editingId === b._id ? (
+                  <>
+                    <td>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="name"
+                        value={editFormData.name}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        className="form-control"
+                        name="date"
+                        value={editFormData.date}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="note"
+                        value={editFormData.note}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>{calculateDaysLeft(editFormData.date)} days</td>
+                    <td>
+                      <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdate(b._id)}>Update</button>
+                      <button className="btn btn-secondary btn-sm" onClick={handleCancel}>Cancel</button>
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td>{b.name}</td>
+                    <td>{new Date(b.date).toLocaleDateString()}</td>
+                    <td>{b.note}</td>
+                    <td>{calculateDaysLeft(b.date)} days</td>
+                    <td>
+                      <button className="btn btn-warning btn-sm me-2" onClick={() => handleEdit(b)}>Edit</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(b._id)}>Delete</button>
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
