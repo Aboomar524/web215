@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 // POST /api/auth/register
@@ -10,7 +11,8 @@ router.post('/register', async (req, res) => {
         const existing = await User.findOne({ username });
         if (existing) return res.status(400).json({ message: 'Username already taken' });
 
-        const newUser = new User({ username, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username, password: hashedPassword });
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
@@ -24,11 +26,11 @@ router.post('/login', async (req, res) => {
 
     try {
         const user = await User.findOne({ username });
-        if (!user || user.password !== password) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
+        if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-        // Return basic user info (no token, simple login)
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) return res.status(400).json({ message: 'Invalid credentials' });
+
         res.json({ username });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
