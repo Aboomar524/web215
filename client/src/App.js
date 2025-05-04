@@ -1,10 +1,9 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './Navbar';
 import Loader from './Loader';
@@ -157,10 +156,10 @@ const Home = () => {
   );
 };
 
-// ✅ Main App Component
+// ✅ Main App with HashRouter (GitHub Pages compatible)
 const App = () => {
   return (
-    <>
+    <Router>
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -168,7 +167,7 @@ const App = () => {
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </Router>
   );
 };
 
