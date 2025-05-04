@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const API_URL = process.env.REACT_APP_API_URL.replace('/birthdays', '/auth');
@@ -22,7 +22,7 @@ function Login() {
 
             const data = await res.json();
 
-            if (res.ok) {
+            if (res.ok && data.username) {
                 localStorage.setItem('username', data.username);
                 Swal.fire('Welcome!', 'Logged in successfully', 'success').then(() => {
                     navigate('/');
@@ -110,9 +110,9 @@ function Login() {
 
                 <p className="mt-3 text-center" style={{ marginTop: '15px' }}>
                     Don’t have an account?{' '}
-                    <a href="/register" style={{ color: '#4A90E2' }}>
+                    <Link to="/register" style={{ color: '#4A90E2' }}>
                         Register
-                    </a>
+                    </Link>
                 </p>
             </div>
 

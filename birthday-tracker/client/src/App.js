@@ -19,12 +19,13 @@ const App = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('username');
-    if (!storedUser) {
+    if (!storedUser || storedUser === 'null' || storedUser === 'undefined') {
+      localStorage.removeItem('username');
       navigate('/login');
     } else {
       fetchBirthdays();
     }
-  }, []);
+  }, [navigate]);
 
   const fetchBirthdays = async () => {
     try {
@@ -35,7 +36,7 @@ const App = () => {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 1500);
+      }, 1000);
     }
   };
 
@@ -63,7 +64,11 @@ const App = () => {
 
   const handleEdit = (birthday) => {
     setEditingId(birthday._id);
-    setEditFormData({ name: birthday.name, date: birthday.date.split('T')[0], note: birthday.note || '' });
+    setEditFormData({
+      name: birthday.name,
+      date: birthday.date.split('T')[0],
+      note: birthday.note || ''
+    });
   };
 
   const handleUpdate = async (id) => {
@@ -79,9 +84,7 @@ const App = () => {
     });
   };
 
-  const handleCancel = () => {
-    setEditingId(null);
-  };
+  const handleCancel = () => setEditingId(null);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -105,17 +108,12 @@ const App = () => {
     const today = new Date();
     const birthday = new Date(date);
     birthday.setFullYear(today.getFullYear());
-    if (birthday < today) {
-      birthday.setFullYear(today.getFullYear() + 1);
-    }
+    if (birthday < today) birthday.setFullYear(today.getFullYear() + 1);
     const diffTime = birthday - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -176,31 +174,13 @@ const App = () => {
                 {editingId === b._id ? (
                   <>
                     <td>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="name"
-                        value={editFormData.name}
-                        onChange={handleEditChange}
-                      />
+                      <input type="text" className="form-control" name="name" value={editFormData.name} onChange={handleEditChange} />
                     </td>
                     <td>
-                      <input
-                        type="date"
-                        className="form-control"
-                        name="date"
-                        value={editFormData.date}
-                        onChange={handleEditChange}
-                      />
+                      <input type="date" className="form-control" name="date" value={editFormData.date} onChange={handleEditChange} />
                     </td>
                     <td>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="note"
-                        value={editFormData.note}
-                        onChange={handleEditChange}
-                      />
+                      <input type="text" className="form-control" name="note" value={editFormData.note} onChange={handleEditChange} />
                     </td>
                     <td>{calculateDaysLeft(editFormData.date)} days</td>
                     <td>
