@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './Navbar';
 import Loader from './Loader';
