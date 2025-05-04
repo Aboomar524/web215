@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
-// POST /api/auth/register
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
@@ -20,7 +19,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// POST /api/auth/login
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
