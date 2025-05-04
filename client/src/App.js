@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
