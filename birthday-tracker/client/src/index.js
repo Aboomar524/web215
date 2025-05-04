@@ -8,11 +8,11 @@ import Register from './Register';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter basename="/web215/birthday-tracker-app">
+    <Router>
         <Routes>
             <Route path="/" element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
         </Routes>
-    </BrowserRouter>
+    </Router>
 );
